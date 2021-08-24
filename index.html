@@ -8,13 +8,43 @@
     <title>Genius</title>
 </head>
 <body>
-    
-    <div class="main-game">
-        <div class="genius">
-            <div class="blue"></div>
-            <div class="yellow"></div>
-            <div class="red"></div>
-            <div class="green"></div>
+    <div class="container">
+        <div class="modal-info">
+            <div class="modal-overlay"></div>
+            <div class="info">
+                <h1>Genius</h1>
+                <p>Acha que tem boa memória? Preste atenção nas cores e clique na ordem correta!</p>
+                <button type="button" class="start">Começar</button>
+            </div>
+        </div>
+
+        <div class="modal-game-over hide">
+            <div class="modal-overlay"></div>
+            <modal class="game-over">
+                <h2>Oh não!</h2>
+                <p>Infelizmente você errou e perdeu!</p>
+                <h3>Pontuação: <span class="score-final"></span></h3>
+                <button type="button" class="restart">Jogar Novamente</button>
+            </modal>
+        </div>
+
+        <div class="main-game">
+            <div class="timer"><span></span></div>
+            <div class="congrats hide">
+                <h3>Parabéns!</h3>
+                <p>Você lembrou da ordem!</p>
+                <button type="button" class="continue">Iniciar próximo nível</button>
+            </div>
+
+            <div class="score-box">
+                <h3>Pontuação: <span class="score"></span></h3>
+            </div>
+            <div class="genius">
+                <div class="blue"></div>
+                <div class="yellow"></div>
+                <div class="red"></div>
+                <div class="green"></div>
+            </div>
         </div>
     </div>
 

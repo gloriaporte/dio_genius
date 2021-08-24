@@ -4,7 +4,6 @@ let order = [];
 let clickedOrder = [];
 // Variável para a pontuação
 let score = 0;
-
 //0 - green
 //1 - red
 //2 - yellow
@@ -14,6 +13,17 @@ const blue = document.querySelector(".blue");
 const red = document.querySelector(".red");
 const yellow = document.querySelector(".yellow");
 const green = document.querySelector(".green");
+
+const btnStart = document.querySelector(".start");
+const btnRestart = document.querySelector(".restart");
+const btnContinue = document.querySelector(".continue");
+const txtScore = document.querySelector(".score");
+const txtScoreFinal = document.querySelector(".score-final");
+
+const modal = document.querySelector(".modal-info");
+const congrats = document.querySelector(".congrats");
+const modalGameOver = document.querySelector(".modal-game-over");
+const txtTimer = document.querySelector(".timer");
 
 
 //Criar ordem aleatória para as cores
@@ -45,14 +55,19 @@ let lightColor = (element, number) => {
 let checkOrder = () => {
     for (let i in clickedOrder) {
         if (clickedOrder[i] != order[i]) {
+
+            blue.classList.add("lose");
+            green.classList.add("lose");
+            yellow.classList.add("lose");
+            red.classList.add("lose");
+
             gameOver();
             break;
         }
     }
 
     if(clickedOrder.length == order.length) {
-        alert(`Você acertou ${score} pontos!\n Iniciando próximo nível!`);
-        nextLevel();
+        congrats.classList.remove("hide");
     }
 }
 
@@ -83,24 +98,80 @@ let createColorElement = (color) => {
 //Função para o próximo nível do jogo
 let nextLevel = () => {
     score++;
+    txtScore.innerHTML = score;
     shuffleOrder();
 }
 
 //Função para game over
 let gameOver= () => {
-    alert(`Pontuação: ${score}!\n Você perdeu o jogo, clique em OK para reiniciar o jogo!`);
+    modalGameOver.classList.remove("hide");
+    txtScoreFinal.innerHTML = score;
     order = [];
     clickedOrder = [];
 
-    playGame();
+    blue.classList.remove("lose");
+    green.classList.remove("lose");
+    yellow.classList.remove("lose");
+    red.classList.remove("lose");
 }
 
 //Função para iniciar o jogo
 let playGame = () => {
-    alert("Bem vindo ao Genius! Iniciando o jogo!");
     score = 0;
-
     nextLevel();
+}
+
+btnStart.onclick = () => {
+    modal.classList.add("hide");
+    txtTimer.classList.add("counting");
+
+    countDown(3);
+
+    setTimeout(function(){
+        playGame();
+    }, 6000);
+}
+
+btnRestart.onclick = () => {
+    modalGameOver.classList.add("hide");
+    congrats.classList.add("hide");
+    txtTimer.classList.remove("hide");
+    txtTimer.classList.add("counting");
+    txtTimer.innerHTML = "";
+    clearInterval(countDown);
+    countDown(3);
+
+    setTimeout(function(){
+        playGame();
+    }, 6000);
+}
+
+let countDown = (time) => {
+    let timeLeft = time;
+
+    let countTime = setInterval(function() {
+
+        if (timeLeft <= 0){
+            clearInterval(countTime);
+            txtTimer.innerHTML = "Já!";
+
+            setTimeout(() => {
+                txtTimer.classList.add("hide");
+            }, 1000);
+
+        } else {
+            txtTimer.innerHTML = timeLeft;
+            timeLeft--;
+        }
+    
+
+    }, 1000);
+
+}
+
+btnContinue.onclick = () => {
+    nextLevel();
+    congrats.classList.add("hide");
 }
 
 green.onclick = () => click(0);
@@ -108,4 +179,3 @@ red.onclick = () => click(1);
 yellow.onclick = () => click(2);
 blue.onclick = () => click(3);
 
-playGame();
